@@ -6,11 +6,13 @@ const Leadership = () => {
         
         <div className="max-w-3xl mx-auto">
           <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-            <img 
-              src="/lovable-uploads/224f7c41-7e27-49ba-b9ee-44785449d3d4.png"
-              alt="Apostle Ezekiel Innocent"
-              className="w-full h-96 object-cover"
-            />
+            <div className="h-[500px] relative">
+              <img 
+                src="/lovable-uploads/224f7c41-7e27-49ba-b9ee-44785449d3d4.png"
+                alt="Apostle Ezekiel Innocent"
+                className="w-full h-full object-contain"
+              />
+            </div>
             <div className="p-6">
               <h3 className="text-2xl font-display font-bold mb-2 text-primary">Apostle Ezekiel Innocent</h3>
               <p className="text-gray-600 mb-4">Senior Pastor</p>

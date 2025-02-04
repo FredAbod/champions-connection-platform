@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 
 const PrayerRequest = () => {
   const { toast } = useToast();
@@ -19,52 +21,57 @@ const PrayerRequest = () => {
   };
 
   return (
-    <section className="py-16 bg-gray-50">
+    <section className="py-16 min-h-screen bg-gradient-to-b from-white to-gray-50">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-display font-bold text-center mb-12 text-primary">Submit Prayer Request</h2>
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-display font-bold text-primary mb-4">Submit Prayer Request</h2>
+          <p className="text-gray-600">
+            "Therefore I tell you, whatever you ask for in prayer, believe that you have received it, and it will be yours." - Mark 11:24
+          </p>
+        </div>
         
-        <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-lg p-6">
-          <div className="mb-6">
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">Name</label>
-            <input
-              type="text"
-              id="name"
-              value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
-              required
-            />
+        <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-lg p-8">
+          <div className="space-y-6">
+            <div>
+              <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Name</label>
+              <Input
+                type="text"
+                id="name"
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                required
+              />
+            </div>
+            
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+              <Input
+                type="email"
+                id="email"
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                required
+              />
+            </div>
+            
+            <div>
+              <label htmlFor="prayer" className="block text-sm font-medium text-gray-700 mb-1">Prayer Request</label>
+              <Textarea
+                id="prayer"
+                value={formData.prayerRequest}
+                onChange={(e) => setFormData({ ...formData, prayerRequest: e.target.value })}
+                className="min-h-[150px]"
+                required
+              />
+            </div>
+            
+            <button
+              type="submit"
+              className="w-full bg-primary text-white py-3 px-4 rounded-md hover:bg-primary/90 transition-colors font-medium"
+            >
+              Submit Request
+            </button>
           </div>
-          
-          <div className="mb-6">
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">Email</label>
-            <input
-              type="email"
-              id="email"
-              value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
-              required
-            />
-          </div>
-          
-          <div className="mb-6">
-            <label htmlFor="prayer" className="block text-sm font-medium text-gray-700 mb-2">Prayer Request</label>
-            <textarea
-              id="prayer"
-              value={formData.prayerRequest}
-              onChange={(e) => setFormData({ ...formData, prayerRequest: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary h-32"
-              required
-            ></textarea>
-          </div>
-          
-          <button
-            type="submit"
-            className="w-full bg-primary text-white py-2 px-4 rounded-md hover:bg-primary/90 transition-colors"
-          >
-            Submit Request
-          </button>
         </form>
       </div>
     </section>
