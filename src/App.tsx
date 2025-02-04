@@ -8,6 +8,7 @@ import NotFound from "./pages/NotFound";
 import Articles from "./components/Articles";
 import Contact from "./components/Contact";
 import PrayerRequest from "./components/PrayerRequest";
+import Devotionals from "./components/Devotionals";
 
 const queryClient = new QueryClient();
 
@@ -22,6 +23,7 @@ const App = () => (
           <Route path="/articles" element={<Articles />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/prayer-requests" element={<PrayerRequest />} />
+          <Route path="/devotionals" element={<Devotionals />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

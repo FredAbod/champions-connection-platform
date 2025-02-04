@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { supabase } from "@/integrations/supabase/client";
 
 const PrayerRequest = () => {
   const { toast } = useToast();
@@ -10,14 +11,40 @@ const PrayerRequest = () => {
     email: "",
     prayerRequest: "",
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast({
-      title: "Prayer Request Submitted",
-      description: "We will keep you in our prayers.",
-    });
-    setFormData({ name: "", email: "", prayerRequest: "" });
+    setIsSubmitting(true);
+    
+    try {
+      const { error } = await supabase
+        .from('Wogsa Prayer Request Form')
+        .insert([
+          {
+            name: formData.name,
+            email: formData.email,
+            request: formData.prayerRequest,
+          }
+        ]);
+
+      if (error) throw error;
+
+      toast({
+        title: "Prayer Request Submitted",
+        description: "We will keep you in our prayers.",
+      });
+      
+      setFormData({ name: "", email: "", prayerRequest: "" });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to submit prayer request. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -67,9 +94,10 @@ const PrayerRequest = () => {
             
             <button
               type="submit"
-              className="w-full bg-primary text-white py-3 px-4 rounded-md hover:bg-primary/90 transition-colors font-medium"
+              disabled={isSubmitting}
+              className="w-full bg-primary text-white py-3 px-4 rounded-md hover:bg-primary/90 transition-colors font-medium disabled:opacity-50"
             >
-              Submit Request
+              {isSubmitting ? "Submitting..." : "Submit Request"}
             </button>
           </div>
         </form>
