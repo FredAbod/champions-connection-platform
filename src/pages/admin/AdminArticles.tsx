@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 import { Card } from "@/components/ui/card";
+import { Pencil, Trash2 } from "lucide-react";
 
 const AdminArticles = () => {
   const { toast } = useToast();
@@ -14,6 +15,7 @@ const AdminArticles = () => {
   const [description, setDescription] = useState("");
   const [content, setContent] = useState("");
   const [imageUrl, setImageUrl] = useState("");
+  const [editingId, setEditingId] = useState<number | null>(null);
 
   const { data: articles, isLoading } = useQuery({
     queryKey: ["articles"],
@@ -44,10 +46,7 @@ const AdminArticles = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["articles"] });
       toast({ title: "Success", description: "Article created successfully" });
-      setTitle("");
-      setDescription("");
-      setContent("");
-      setImageUrl("");
+      resetForm();
     },
     onError: (error) => {
       toast({ 
@@ -59,9 +58,82 @@ const AdminArticles = () => {
     },
   });
 
+  const updateArticle = useMutation({
+    mutationFn: async () => {
+      if (!editingId) return;
+      const { error } = await supabase
+        .from("articles")
+        .update({
+          title,
+          description,
+          content,
+          image_url: imageUrl,
+        })
+        .eq('id', editingId);
+      
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["articles"] });
+      toast({ title: "Success", description: "Article updated successfully" });
+      resetForm();
+    },
+    onError: (error) => {
+      toast({ 
+        title: "Error", 
+        description: "Failed to update article", 
+        variant: "destructive" 
+      });
+      console.error("Error updating article:", error);
+    },
+  });
+
+  const deleteArticle = useMutation({
+    mutationFn: async (id: number) => {
+      const { error } = await supabase
+        .from("articles")
+        .delete()
+        .eq('id', id);
+      
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["articles"] });
+      toast({ title: "Success", description: "Article deleted successfully" });
+    },
+    onError: (error) => {
+      toast({ 
+        title: "Error", 
+        description: "Failed to delete article", 
+        variant: "destructive" 
+      });
+      console.error("Error deleting article:", error);
+    },
+  });
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    createArticle.mutate();
+    if (editingId) {
+      updateArticle.mutate();
+    } else {
+      createArticle.mutate();
+    }
+  };
+
+  const handleEdit = (article: any) => {
+    setEditingId(article.id);
+    setTitle(article.title);
+    setDescription(article.description);
+    setContent(article.content);
+    setImageUrl(article.image_url);
+  };
+
+  const resetForm = () => {
+    setEditingId(null);
+    setTitle("");
+    setDescription("");
+    setContent("");
+    setImageUrl("");
   };
 
   return (
@@ -71,7 +143,9 @@ const AdminArticles = () => {
         
         <div className="grid md:grid-cols-2 gap-8">
           <Card className="p-6">
-            <h2 className="text-xl font-display font-bold mb-4">Add New Article</h2>
+            <h2 className="text-xl font-display font-bold mb-4">
+              {editingId ? "Edit Article" : "Add New Article"}
+            </h2>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label className="block text-sm font-medium mb-1">Title</label>
@@ -111,9 +185,16 @@ const AdminArticles = () => {
                 />
               </div>
               
-              <Button type="submit" className="w-full">
-                Add Article
-              </Button>
+              <div className="flex gap-4">
+                <Button type="submit" className="flex-1">
+                  {editingId ? "Update Article" : "Add Article"}
+                </Button>
+                {editingId && (
+                  <Button type="button" variant="outline" onClick={resetForm}>
+                    Cancel
+                  </Button>
+                )}
+              </div>
             </form>
           </Card>
           
@@ -124,8 +205,28 @@ const AdminArticles = () => {
             ) : (
               articles?.map((article) => (
                 <Card key={article.id} className="p-4">
-                  <h3 className="font-bold">{article.title}</h3>
-                  <p className="text-sm text-gray-500">{article.description}</p>
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <h3 className="font-bold">{article.title}</h3>
+                      <p className="text-sm text-gray-500">{article.description}</p>
+                    </div>
+                    <div className="flex gap-2">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => handleEdit(article)}
+                      >
+                        <Pencil className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => deleteArticle.mutate(article.id)}
+                      >
+                        <Trash2 className="h-4 w-4 text-red-500" />
+                      </Button>
+                    </div>
+                  </div>
                 </Card>
               ))
             )}
