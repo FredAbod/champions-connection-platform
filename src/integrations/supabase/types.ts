@@ -9,6 +9,36 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      daily_devotionals: {
+        Row: {
+          content: string
+          created_at: string | null
+          date: string
+          id: number
+          prayer_points: string[]
+          scripture: string
+          title: string
+        }
+        Insert: {
+          content: string
+          created_at?: string | null
+          date?: string
+          id?: never
+          prayer_points?: string[]
+          scripture: string
+          title: string
+        }
+        Update: {
+          content?: string
+          created_at?: string | null
+          date?: string
+          id?: never
+          prayer_points?: string[]
+          scripture?: string
+          title?: string
+        }
+        Relationships: []
+      }
       "Wogsa Prayer Request Form": {
         Row: {
           created_at: string
