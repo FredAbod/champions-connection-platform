@@ -9,6 +9,66 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      articles: {
+        Row: {
+          content: string
+          created_at: string | null
+          description: string
+          id: number
+          image_url: string
+          published_at: string | null
+          title: string
+        }
+        Insert: {
+          content: string
+          created_at?: string | null
+          description: string
+          id?: never
+          image_url: string
+          published_at?: string | null
+          title: string
+        }
+        Update: {
+          content?: string
+          created_at?: string | null
+          description?: string
+          id?: never
+          image_url?: string
+          published_at?: string | null
+          title?: string
+        }
+        Relationships: []
+      }
+      church_contacts: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          email: string | null
+          id: number
+          name: string
+          phone: string | null
+          role: string
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          email?: string | null
+          id?: never
+          name: string
+          phone?: string | null
+          role: string
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          email?: string | null
+          id?: never
+          name?: string
+          phone?: string | null
+          role?: string
+        }
+        Relationships: []
+      }
       daily_devotionals: {
         Row: {
           content: string
