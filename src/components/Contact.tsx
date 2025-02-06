@@ -1,12 +1,20 @@
+
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Card } from "@/components/ui/card";
+import { useState } from "react";
 
 const Contact = () => {
   const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
 
   const { data: contacts, isLoading } = useQuery({
     queryKey: ['contacts'],
@@ -21,12 +29,39 @@ const Contact = () => {
     },
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast({
-      title: "Message Sent",
-      description: "We'll get back to you as soon as possible.",
-    });
+    setIsSubmitting(true);
+    
+    try {
+      const { error } = await supabase
+        .from('Wogsa Prayer Request Form')
+        .insert([
+          {
+            name: formData.name,
+            email: formData.email,
+            request: formData.message, // Store the message in the request field
+          }
+        ]);
+
+      if (error) throw error;
+
+      toast({
+        title: "Message Sent",
+        description: "We'll get back to you as soon as possible.",
+      });
+      
+      // Reset form
+      setFormData({ name: "", email: "", message: "" });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to send message. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -76,24 +111,42 @@ const Contact = () => {
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Name</label>
-                  <Input id="name" required />
+                  <Input 
+                    id="name" 
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    required 
+                  />
                 </div>
                 
                 <div>
                   <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                  <Input type="email" id="email" required />
+                  <Input 
+                    type="email" 
+                    id="email" 
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    required 
+                  />
                 </div>
                 
                 <div>
                   <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">Message</label>
-                  <Textarea id="message" required className="min-h-[120px]" />
+                  <Textarea 
+                    id="message" 
+                    value={formData.message}
+                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                    required 
+                    className="min-h-[120px]" 
+                  />
                 </div>
                 
                 <button
                   type="submit"
-                  className="w-full bg-primary text-white py-2 px-4 rounded-md hover:bg-primary/90 transition-colors"
+                  disabled={isSubmitting}
+                  className="w-full bg-primary text-white py-2 px-4 rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50"
                 >
-                  Send Message
+                  {isSubmitting ? "Sending..." : "Send Message"}
                 </button>
               </form>
             </Card>
