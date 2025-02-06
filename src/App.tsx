@@ -1,3 +1,4 @@
+
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -10,6 +11,10 @@ import AdminDevotionals from "@/pages/admin/AdminDevotionals";
 import AdminArticles from "@/pages/admin/AdminArticles";
 import AdminContacts from "@/pages/admin/AdminContacts";
 import AdminPrayerRequests from "@/pages/admin/AdminPrayerRequests";
+import About from "@/components/About";
+import Articles from "@/components/Articles";
+import PrayerRequest from "@/components/PrayerRequest";
+import Contact from "@/components/Contact";
 
 const queryClient = new QueryClient();
 
@@ -22,6 +27,10 @@ function App() {
         <Router>
           <Routes>
             <Route path="/" element={<Index />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/articles" element={<Articles />} />
+            <Route path="/prayer-requests" element={<PrayerRequest />} />
+            <Route path="/contact" element={<Contact />} />
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/admin/devotionals" element={<AdminDevotionals />} />
             <Route path="/admin/articles" element={<AdminArticles />} />
