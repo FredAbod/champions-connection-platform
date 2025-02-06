@@ -3,49 +3,17 @@ import { useEffect, useState } from "react";
 
 const Hero = () => {
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
-  const [isVideoError, setIsVideoError] = useState(false);
-
-  useEffect(() => {
-    // Create a video element to check if the video can be loaded
-    const preloadVideo = document.createElement('video');
-    preloadVideo.src = "https://asset.cloudinary.com/del59phog/1b206c71fa7b874edcb10007af882eea";
-    preloadVideo.load(); // Explicitly load the video
-    
-    preloadVideo.oncanplay = () => setIsVideoLoaded(true);
-    preloadVideo.onerror = () => setIsVideoError(true);
-  }, []);
+  const [isVideoError, setIsVideoError] = useState(true); // Set to true by default to show image
 
   return (
     <div className="relative min-h-screen flex items-center justify-center text-white overflow-hidden">
-      {/* Video Background */}
-      {!isVideoError && (
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="auto"
-          className="absolute inset-0 w-full h-full object-cover z-0"
-          poster="/lovable-uploads/60636fa8-e2fc-4103-9965-7ecf95491cec.png"
-          onError={() => setIsVideoError(true)}
-        >
-          <source 
-            src="https://asset.cloudinary.com/del59phog/1b206c71fa7b874edcb10007af882eea" 
-            type="video/mp4" 
-          />
-          Your browser does not support the video tag.
-        </video>
-      )}
-
       {/* Fallback Image (shown if video fails to load) */}
-      {isVideoError && (
-        <div 
-          className="absolute inset-0 w-full h-full bg-cover bg-center z-0"
-          style={{
-            backgroundImage: 'url("/lovable-uploads/60636fa8-e2fc-4103-9965-7ecf95491cec.png")'
-          }}
-        />
-      )}
+      <div 
+        className="absolute inset-0 w-full h-full bg-cover bg-center z-0"
+        style={{
+          backgroundImage: 'url("/lovable-uploads/29165691-5b05-4064-932d-7b34d37c7ba3.png")'
+        }}
+      />
 
       {/* Overlay gradient */}
       <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/50 backdrop-blur-sm z-10"></div>
