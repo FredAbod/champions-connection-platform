@@ -6,11 +6,13 @@ const Hero = () => {
   const [isVideoError, setIsVideoError] = useState(false);
 
   useEffect(() => {
-    // Preload the video using document.createElement
-    const video = document.createElement('video');
-    video.src = "https://asset.cloudinary.com/del59phog/1b206c71fa7b874edcb10007af882eea";
-    video.onloadeddata = () => setIsVideoLoaded(true);
-    video.onerror = () => setIsVideoError(true);
+    // Create a video element to check if the video can be loaded
+    const preloadVideo = document.createElement('video');
+    preloadVideo.src = "https://asset.cloudinary.com/del59phog/1b206c71fa7b874edcb10007af882eea";
+    preloadVideo.load(); // Explicitly load the video
+    
+    preloadVideo.oncanplay = () => setIsVideoLoaded(true);
+    preloadVideo.onerror = () => setIsVideoError(true);
   }, []);
 
   return (
@@ -22,6 +24,7 @@ const Hero = () => {
           loop
           muted
           playsInline
+          preload="auto"
           className="absolute inset-0 w-full h-full object-cover z-0"
           poster="/lovable-uploads/60636fa8-e2fc-4103-9965-7ecf95491cec.png"
           onError={() => setIsVideoError(true)}
@@ -30,6 +33,7 @@ const Hero = () => {
             src="https://asset.cloudinary.com/del59phog/1b206c71fa7b874edcb10007af882eea" 
             type="video/mp4" 
           />
+          Your browser does not support the video tag.
         </video>
       )}
 
