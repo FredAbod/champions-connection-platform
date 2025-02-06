@@ -6,8 +6,8 @@ const Hero = () => {
   const [isVideoError, setIsVideoError] = useState(false);
 
   useEffect(() => {
-    // Preload the video
-    const video = new HTMLVideoElement();
+    // Preload the video using document.createElement
+    const video = document.createElement('video');
     video.src = "https://asset.cloudinary.com/del59phog/1b206c71fa7b874edcb10007af882eea";
     video.onloadeddata = () => setIsVideoLoaded(true);
     video.onerror = () => setIsVideoError(true);
