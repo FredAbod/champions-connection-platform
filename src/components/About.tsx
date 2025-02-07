@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { ChevronDown, Facebook, Instagram, Youtube } from "lucide-react";
+import { ChevronDown, Facebook, Instagram, Youtube, ExternalLink } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 const About = () => {
@@ -62,33 +62,49 @@ const About = () => {
           )}
         </div>
 
-        <div className="bg-white p-8 rounded-xl shadow-lg">
-          <h3 className="text-2xl font-display font-bold mb-6 text-primary text-center">Connect With Us</h3>
-          <div className="flex justify-center gap-6">
-            <a 
-              href="https://www.facebook.com/fredrick.abodunrin.5" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-primary hover:text-secondary transition-colors p-2 rounded-full hover:bg-primary/5"
-            >
-              <Facebook size={32} />
-            </a>
-            <a 
-              href="https://www.instagram.com/fredrickabodunrin/" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-primary hover:text-secondary transition-colors p-2 rounded-full hover:bg-primary/5"
-            >
-              <Instagram size={32} />
-            </a>
-            <a 
-              href="#" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-primary hover:text-secondary transition-colors p-2 rounded-full hover:bg-primary/5"
-            >
-              <Youtube size={32} />
-            </a>
+        <div className="space-y-8">
+          <div className="bg-white p-8 rounded-xl shadow-lg">
+            <h3 className="text-2xl font-display font-bold mb-6 text-primary text-center">Connect With Us</h3>
+            <div className="flex justify-center gap-6">
+              <a 
+                href="https://www.facebook.com/fredrick.abodunrin.5" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-primary hover:text-secondary transition-colors p-2 rounded-full hover:bg-primary/5"
+              >
+                <Facebook size={32} />
+              </a>
+              <a 
+                href="https://www.instagram.com/fredrickabodunrin/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-primary hover:text-secondary transition-colors p-2 rounded-full hover:bg-primary/5"
+              >
+                <Instagram size={32} />
+              </a>
+              <a 
+                href="https://www.youtube.com/@fredrickabodunrin3475" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-primary hover:text-secondary transition-colors p-2 rounded-full hover:bg-primary/5"
+              >
+                <Youtube size={32} />
+              </a>
+            </div>
+          </div>
+
+          <div className="bg-white p-8 rounded-xl shadow-lg">
+            <h3 className="text-2xl font-display font-bold mb-6 text-primary text-center">Download Our Messages</h3>
+            <div className="flex justify-center">
+              <a 
+                href="https://t.me/pairsncoins" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-primary hover:text-secondary transition-colors"
+              >
+                Join our Telegram Channel <ExternalLink size={20} />
+              </a>
+            </div>
           </div>
         </div>
       </div>
