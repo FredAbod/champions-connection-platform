@@ -15,6 +15,7 @@ import About from "@/components/About";
 import Articles from "@/components/Articles";
 import PrayerRequest from "@/components/PrayerRequest";
 import Contact from "@/components/Contact";
+import DevotionalsPage from "@/pages/DevotionalsPage";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +30,7 @@ function App() {
             <Route path="/" element={<Index />} />
             <Route path="/about" element={<About />} />
             <Route path="/articles" element={<Articles />} />
+            <Route path="/devotionals" element={<DevotionalsPage />} />
             <Route path="/prayer-requests" element={<PrayerRequest />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/admin" element={<AdminDashboard />} />
