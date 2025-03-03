@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import type { Database } from "@/integrations/supabase/types";
 
 type Devotional = Database['public']['Tables']['daily_devotionals']['Row'];
@@ -59,6 +60,7 @@ const DevotionalsPage = () => {
           )}
         </div>
       </main>
+      <Footer />
     </div>
   );
 };
