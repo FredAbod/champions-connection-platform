@@ -1,11 +1,52 @@
 
 import { useState } from "react";
-import { ChevronDown, Facebook, Instagram, Youtube, ExternalLink } from "lucide-react";
+import { ChevronDown, Facebook, Instagram, Youtube, Twitter, ExternalLink, MessageCircle } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { Button } from "@/components/ui/button";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 const About = () => {
   const [isHistoryExpanded, setIsHistoryExpanded] = useState(false);
   const isMobile = useIsMobile();
+
+  const socialLinks = [
+    {
+      name: "Youtube",
+      icon: <Youtube size={32} />,
+      url: "https://youtube.com/@ezekiel_innocent?si=6oQTJQatleexSnZw",
+      handle: "Ezekiel Innocent"
+    },
+    {
+      name: "Facebook",
+      icon: <Facebook size={32} />,
+      url: "https://www.facebook.com/share/15wLLkjSct/",
+      handle: "Ezekiel Innocent"
+    },
+    {
+      name: "Instagram",
+      icon: <Instagram size={32} />,
+      url: "https://www.facebook.com/share/15wLLkjSct/",
+      handle: "apostle_ezekielinnocent"
+    },
+    {
+      name: "X (Twitter)",
+      icon: <Twitter size={32} />,
+      url: "https://x.com/apostleezekielI?t=FJdhfg7pFx5Hlgq9y2Hj6Q&s=09",
+      handle: "apostleezekielI"
+    },
+    {
+      name: "TikTok",
+      icon: <ExternalLink size={32} />,
+      url: "https://www.tiktok.com/@apstezekiel?_t=ZM-8uMw4qaPNRd&_r=1",
+      handle: "apstezekiel"
+    },
+    {
+      name: "Telegram",
+      icon: <MessageCircle size={32} />,
+      url: "https://t.me/apostleezekielinnocent",
+      handle: "Apostle Ezekiel Innocent"
+    }
+  ];
 
   return (
     <section className="py-16 bg-white">
@@ -64,46 +105,49 @@ const About = () => {
 
         <div className="space-y-8">
           <div className="bg-white p-8 rounded-xl shadow-lg">
-            <h3 className="text-2xl font-display font-bold mb-6 text-primary text-center">Connect With Us</h3>
-            <div className="flex justify-center gap-6">
-              <a 
-                href="https://www.facebook.com/fredrick.abodunrin.5" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="text-primary hover:text-secondary transition-colors p-2 rounded-full hover:bg-primary/5"
-              >
-                <Facebook size={32} />
-              </a>
-              <a 
-                href="https://www.instagram.com/fredrickabodunrin/" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="text-primary hover:text-secondary transition-colors p-2 rounded-full hover:bg-primary/5"
-              >
-                <Instagram size={32} />
-              </a>
-              <a 
-                href="https://www.youtube.com/@fredrickabodunrin3475" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="text-primary hover:text-secondary transition-colors p-2 rounded-full hover:bg-primary/5"
-              >
-                <Youtube size={32} />
-              </a>
+            <h3 className="text-2xl font-display font-bold mb-6 text-primary text-center">Follow Us On Social Media</h3>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 justify-center">
+              {socialLinks.map((social) => (
+                <TooltipProvider key={social.name}>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <a 
+                        href={social.url} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="flex flex-col items-center gap-2 p-3 rounded-lg hover:bg-primary/5 transition-colors"
+                      >
+                        <div className="text-primary hover:text-secondary transition-colors">
+                          {social.icon}
+                        </div>
+                        <span className="text-sm font-medium text-center">{social.name}</span>
+                      </a>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>{social.handle}</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              ))}
             </div>
           </div>
 
           <div className="bg-white p-8 rounded-xl shadow-lg">
             <h3 className="text-2xl font-display font-bold mb-6 text-primary text-center">Download Our Messages</h3>
             <div className="flex justify-center">
-              <a 
-                href="https://t.me/pairsncoins" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-primary hover:text-secondary transition-colors"
+              <Button
+                variant="outline"
+                className="gap-2 text-primary hover:text-secondary hover:bg-primary/5 transition-colors"
+                asChild
               >
-                Join our Telegram Channel <ExternalLink size={20} />
-              </a>
+                <a 
+                  href="https://t.me/apostleezekielinnocent" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                >
+                  Join our Telegram Channel <ExternalLink size={20} />
+                </a>
+              </Button>
             </div>
           </div>
         </div>
@@ -113,4 +157,3 @@ const About = () => {
 };
 
 export default About;
-
